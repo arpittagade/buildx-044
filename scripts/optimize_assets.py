@@ -1,6 +1,6 @@
 from pathlib import Path
 from PIL import Image
-
+# quiz solved 
 assets = Path('/home/ubuntu/devnox/client/public/assets')
 for source_name, target_name, max_size in [
     ('civic-hero.png', 'civic-hero.webp', (1600, 900)),
