@@ -5,6 +5,9 @@ assets = Path('/home/ubuntu/devnox/client/public/assets')
 for source_name, target_name, max_size in [
     ('civic-hero.png', 'civic-hero.webp', (1600, 900)),
     ('civic-empty.png', 'civic-empty.webp', (640, 640)),
+    ('civic-routing.png', 'civic-routing.webp', (1200, 800)),
+    ('civic-patterns.png', 'civic-patterns.webp', (1200, 800)),
+    ('civic-trust.png', 'civic-trust.webp', (1200, 800)),
 ]:
     source = assets / source_name
     target = assets / target_name

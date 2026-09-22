@@ -39,7 +39,8 @@ app.post('/api/auth/login', async (req, res) => {
     const { email, password } = req.body;
     if (!emailPattern.test(email || '') || !password) return res.status(400).json({ message: 'Enter a valid email and password.' });
     const user = await User.findOne({ email: email.toLowerCase() });
-    if (!user || !(await comparePassword(password, user.passwordHash))) return res.status(401).json({ message: 'Email or password is incorrect.' });
+    if (!user) return res.status(404).json({ message: 'User does not exist. Create an account first.' });
+    if (!(await comparePassword(password, user.passwordHash))) return res.status(401).json({ message: 'Email or password is incorrect.' });
     res.json({ token: signUser(user), user: publicUser(user) });
   } catch { res.status(500).json({ message: 'Unable to sign in right now.' }); }
 });
