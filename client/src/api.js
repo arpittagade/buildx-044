@@ -68,7 +68,7 @@ export const api = {
     return request(`/complaints/${id}/feedback`, { method: 'PATCH', body: JSON.stringify(payload) });
   },
   async adminOverview() {
-    if (token()?.startsWith('demo-')) { const complaints = readStore().complaints; const counts = complaints.reduce((all, item) => { all[item.status] = (all[item.status] || 0) + 1; return all; }, {}); return { complaints, counts, byDepartment: Object.entries(complaints.reduce((all, item) => { all[item.department] = (all[item.department] || 0) + 1; return all; }, {})).map(([id, count]) => ({ _id: id, count })), byWard: Object.entries(complaints.reduce((all, item) => { all[item.ward] = (all[item.ward] || 0) + 1; return all; }, {})).map(([id, count]) => ({ _id: id, count })) }; }
+    if (token()?.startsWith('demo-')) { const complaints = readStore().complaints; const counts = complaints.reduce((all, item) => { all[item.status] = (all[item.status] || 0) + 1; return all; }, {}); return { complaints, counts, emergencyCount: complaints.filter(item => item.isEmergency && item.status !== 'Resolved').length, byDepartment: Object.entries(complaints.reduce((all, item) => { all[item.department] = (all[item.department] || 0) + 1; return all; }, {})).map(([id, count]) => ({ _id: id, count })), byWard: Object.entries(complaints.reduce((all, item) => { all[item.ward] = (all[item.ward] || 0) + 1; return all; }, {})).map(([id, count]) => ({ _id: id, count })) }; }
     return request('/admin/overview');
   },
   async assign(id, payload) {

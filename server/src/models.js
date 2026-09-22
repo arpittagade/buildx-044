@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
   role: { type: String, enum: ['citizen', 'officer', 'admin'], default: 'citizen' },
   department: { type: String, default: 'Water Supply' },
   ward: { type: String, default: 'Ashi Nagar' },
-  preferredLanguage: { type: String, enum: ['English', 'Hindi', 'Marathi'], default: 'English' }
+  preferredLanguage: { type: String, enum: ['English', 'Hindi', 'Marathi', 'Telugu'], default: 'English' }
 }, { timestamps: true });
 
 const complaintSchema = new mongoose.Schema({
@@ -21,6 +21,9 @@ const complaintSchema = new mongoose.Schema({
   department: { type: String, default: 'Unassigned' },
   assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
   priority: { type: String, enum: ['Low', 'Medium', 'High', 'Critical'], default: 'Medium' },
+  isEmergency: { type: Boolean, default: false, index: true },
+  emergencyType: { type: String, default: '' },
+  vulnerableGroup: { type: String, default: 'None' },
   status: { type: String, enum: ['Submitted', 'Under review', 'Assigned', 'In progress', 'Resolved', 'Reopened'], default: 'Submitted' },
   evidenceUrl: { type: String, default: '' },
   updates: [{

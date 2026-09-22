@@ -56,9 +56,10 @@ app.get('/api/meta', (_req, res) => res.json({ categories, departments, wards: [
 app.post('/api/complaints', requireAuth, upload.single('evidence'), async (req, res) => {
   try {
     if (req.auth.role !== 'citizen') return res.status(403).json({ message: 'Only citizens can submit a new complaint.' });
-    const { title, category, description, location, ward, priority = 'Medium' } = req.body;
+    const { title, category, description, location, ward, priority = 'Medium', emergencyType = '', vulnerableGroup = 'None' } = req.body;
     if (!title || !category || !description || !location || !ward) return res.status(400).json({ message: 'Please complete every required issue field.' });
-    const complaint = await Complaint.create({ complaintNumber: complaintNumber(), title, category, description, location, ward, priority, citizen: req.auth.id, updates: [{ status: 'Submitted', note: 'Complaint received and added to the civic coordination queue.', by: req.auth.id }] });
+    const isEmergency = req.body.isEmergency === true || req.body.isEmergency === 'true';
+    const complaint = await Complaint.create({ complaintNumber: complaintNumber(), title, category, description, location, ward, priority: isEmergency ? 'Critical' : priority, isEmergency, emergencyType: isEmergency ? emergencyType : '', vulnerableGroup, citizen: req.auth.id, updates: [{ status: 'Submitted', note: isEmergency ? `Emergency complaint received: ${emergencyType || 'Immediate civic risk'}.` : 'Complaint received and added to the civic coordination queue.', by: req.auth.id }] });
     await complaint.populate('citizen assignedTo');
     res.status(201).json({ complaint: publicComplaint(complaint) });
   } catch (error) { res.status(500).json({ message: 'Unable to submit the complaint.' }); }
@@ -96,7 +97,8 @@ app.get('/api/admin/overview', requireAuth, requireRole('admin'), async (_req, r
     Complaint.aggregate([{ $group: { _id: '$ward', count: { $sum: 1 } } }, { $sort: { count: -1 } }])
   ]);
   const counts = complaints.reduce((all, item) => { all[item.status] = (all[item.status] || 0) + 1; return all; }, {});
-  res.json({ complaints: complaints.map(publicComplaint), counts, byDepartment, byWard });
+  const emergencyCount = complaints.filter(item => item.isEmergency && item.status !== 'Resolved').length;
+  res.json({ complaints: complaints.map(publicComplaint), counts, byDepartment, byWard, emergencyCount });
 });
 
 app.patch('/api/admin/complaints/:id/assign', requireAuth, requireRole('admin'), async (req, res) => {
