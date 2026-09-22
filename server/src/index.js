@@ -6,7 +6,6 @@ import multer from 'multer';
 import { Complaint, User } from './models.js';
 import { comparePassword, emailPattern, ensureAdmin, hashPassword, requireAuth, requireRole, signUser } from './auth.js';
 
-
 const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 4 * 1024 * 1024 } });
 const port = process.env.PORT || 4000;
