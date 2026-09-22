@@ -67,9 +67,9 @@ These demo credentials are intended for the hackathon walkthrough and are also a
 | Role | Email | Password |
 |---|---|---|
 | Citizen | `citizen@civicconnect.local` | `Citizen@123` |
-| Admin | `admin@civicconnect.local` | `Admin@123` |
+| Admin demo | `demo-admin@civicconnect.local` | `Admin@123` |
 
-Change `ADMIN_PASSWORD` and `JWT_SECRET` before production deployment.
+The demo admin is seeded separately so it remains available even when the production `ADMIN_EMAIL` and `ADMIN_PASSWORD` are customized. Change `ADMIN_PASSWORD` and `JWT_SECRET` before production deployment.
 
 ## Security and correctness notes
 

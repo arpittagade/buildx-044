@@ -1,10 +1,10 @@
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
-export const DEMO_ADMIN = { email: 'admin@civicconnect.local', password: 'Admin@123' };
+export const DEMO_ADMIN = { email: 'demo-admin@civicconnect.local', password: 'Admin@123' };
 export const DEMO_CITIZEN = { email: 'citizen@civicconnect.local', password: 'Citizen@123' };
 
 const demoUser = { id: 'demo-citizen', name: 'Sunita Patil', email: DEMO_CITIZEN.email, role: 'citizen', ward: 'Ashi Nagar', preferredLanguage: 'Hindi' };
-const demoAdmin = { id: 'demo-admin', name: 'CivicConnect Administrator', email: DEMO_ADMIN.email, role: 'admin', department: 'Municipal Coordination', ward: 'All wards' };
+const demoAdmin = { id: 'demo-admin', name: 'CivicConnect Demo Administrator', email: DEMO_ADMIN.email, role: 'admin', department: 'Municipal Coordination', ward: 'All wards' };
 const demoComplaints = [
   { id: 'demo-1042', _id: 'demo-1042', complaintNumber: 'NC-2026-1042', title: 'Water pipe leaking outside my home', category: 'Water & drainage', description: 'A public pipeline has been leaking for four days and water is collecting near the entrance.', location: 'Ashi Nagar, Lane 4', ward: 'Ashi Nagar', department: 'Water Supply', priority: 'High', status: 'In progress', citizen: demoUser, createdAt: '2026-09-20T09:30:00Z', dueAt: '2026-09-23T09:30:00Z', updates: [{ status: 'Submitted', note: 'Complaint received through CivicConnect.', createdAt: '2026-09-20T09:30:00Z' }, { status: 'Assigned', note: 'Water Supply team assigned by admin.', createdAt: '2026-09-20T12:30:00Z' }, { status: 'In progress', note: 'Field visit scheduled for today.', createdAt: '2026-09-21T08:30:00Z' }] },
   { id: 'demo-1039', _id: 'demo-1039', complaintNumber: 'NC-2026-1039', title: 'Streetlight out near bus stop', category: 'Streetlights', description: 'The light has been out for 12 days near the Wadi bus stop.', location: 'Wadi bus stop', ward: 'Wadi', department: 'Electrical Department', priority: 'Medium', status: 'Resolved', citizen: demoUser, createdAt: '2026-09-18T08:30:00Z', dueAt: '2026-09-21T08:30:00Z', updates: [{ status: 'Submitted', note: 'Complaint received.', createdAt: '2026-09-18T08:30:00Z' }, { status: 'Resolved', note: 'Fixture replaced and tested.', createdAt: '2026-09-19T15:20:00Z' }] },

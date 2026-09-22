@@ -43,8 +43,30 @@ export async function ensureAdmin() {
   const password = process.env.ADMIN_PASSWORD || 'Admin@123';
   const existing = await User.findOne({ email });
   if (existing) {
-    if (existing.role !== 'admin') { existing.role = 'admin'; await existing.save(); }
+    let changed = false;
+    if (existing.role !== 'admin') { existing.role = 'admin'; changed = true; }
+    // Recover the public demo account if an earlier deployment left a stale
+    // hash. Never overwrite a password supplied explicitly for production.
+    if (!process.env.ADMIN_PASSWORD && email === 'admin@civicconnect.local' && !(await comparePassword(password, existing.passwordHash))) {
+      existing.passwordHash = await hashPassword(password);
+      changed = true;
+    }
+    if (changed) await existing.save();
     return existing;
   }
   return User.create({ name: process.env.ADMIN_NAME || 'CivicConnect Administrator', email, passwordHash: await hashPassword(password), role: 'admin', department: 'Municipal Coordination', ward: 'All wards' });
+}
+
+export async function ensureDemoAdmin() {
+  const email = 'demo-admin@civicconnect.local';
+  const password = 'Admin@123';
+  const existing = await User.findOne({ email });
+  if (existing) {
+    let changed = false;
+    if (existing.role !== 'admin') { existing.role = 'admin'; changed = true; }
+    if (!(await comparePassword(password, existing.passwordHash))) { existing.passwordHash = await hashPassword(password); changed = true; }
+    if (changed) await existing.save();
+    return existing;
+  }
+  return User.create({ name: 'CivicConnect Demo Administrator', email, passwordHash: await hashPassword(password), role: 'admin', department: 'Municipal Coordination', ward: 'All wards' });
 }

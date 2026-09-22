@@ -4,7 +4,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import multer from 'multer';
 import { Complaint, User } from './models.js';
-import { comparePassword, emailPattern, ensureAdmin, hashPassword, requireAuth, requireRole, signUser } from './auth.js';
+import { comparePassword, emailPattern, ensureAdmin, ensureDemoAdmin, hashPassword, requireAuth, requireRole, signUser } from './auth.js';
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 4 * 1024 * 1024 } });
@@ -142,6 +142,7 @@ async function start() {
   if (process.env.MONGO_URI) {
     await mongoose.connect(process.env.MONGO_URI);
     await seedDemo();
+    await ensureDemoAdmin();
     console.log('MongoDB connected and CivicConnect demo data ready.');
   } else {
     console.warn('MONGO_URI is missing. API will start but database routes will fail until configured.');
