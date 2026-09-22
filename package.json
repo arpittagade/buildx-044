@@ -1,0 +1,12 @@
+{
+  "name": "civicconnect",
+  "private": true,
+  "version": "1.0.0",
+  "description": "CivicConnect - transparent civic issue reporting for Nagpur",
+  "scripts": {
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run dev",
+    "build:client": "npm --prefix client run build",
+    "start:server": "npm --prefix server start"
+  }
+}

@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: civicconnect-api
+    runtime: node
+    buildCommand: npm install --prefix server
+    startCommand: npm start --prefix server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: ADMIN_EMAIL
+        value: admin@civicconnect.local
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_NAME
+        value: CivicConnect Administrator
