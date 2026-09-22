@@ -17,6 +17,7 @@ function readStore() {
 function writeStore(store) { localStorage.setItem('civicconnect_demo_store', JSON.stringify(store)); }
 function currentUser() { try { return JSON.parse(localStorage.getItem('civicconnect_user')); } catch { return null; } }
 function token() { return localStorage.getItem('civicconnect_token'); }
+function isNetworkFailure(error) { return error instanceof TypeError || /failed to fetch|fetch failed|network error|network request/i.test(error?.message || ''); }
 
 async function request(path, options = {}) {
   const headers = { ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }), ...(options.headers || {}) };
@@ -31,9 +32,13 @@ function persistSession(data) { localStorage.setItem('civicconnect_token', data.
 
 export const api = {
   async login(payload) {
-    if (payload.email === DEMO_ADMIN.email && payload.password === DEMO_ADMIN.password) { persistSession({ token: 'demo-admin-token', user: demoAdmin }); return { user: demoAdmin }; }
-    if (payload.email === DEMO_CITIZEN.email && payload.password === DEMO_CITIZEN.password) { persistSession({ token: 'demo-citizen-token', user: demoUser }); return { user: demoUser }; }
-    try { const result = await request('/auth/login', { method: 'POST', body: JSON.stringify(payload) }); persistSession(result); return result; } catch (error) { throw error; }
+    try { const result = await request('/auth/login', { method: 'POST', body: JSON.stringify(payload) }); persistSession(result); return result; } catch (error) {
+      // Demo credentials are a local fallback only. If the API is reachable, its
+      // response must win so real MongoDB users and complaints stay in one store.
+      if (isNetworkFailure(error) && payload.email === DEMO_ADMIN.email && payload.password === DEMO_ADMIN.password) { persistSession({ token: 'demo-admin-token', user: demoAdmin }); return { user: demoAdmin }; }
+      if (isNetworkFailure(error) && payload.email === DEMO_CITIZEN.email && payload.password === DEMO_CITIZEN.password) { persistSession({ token: 'demo-citizen-token', user: demoUser }); return { user: demoUser }; }
+      throw error;
+    }
   },
   async register(payload) {
     try { const result = await request('/auth/register', { method: 'POST', body: JSON.stringify(payload) }); persistSession(result); return result; } catch (error) { throw error; }
