@@ -244,3 +244,22 @@ a { color: inherit; text-decoration: none; }
 .resilience-item span { margin-top: 4px; color: #9eb7b9; font-size: 10px; line-height: 1.45; }
 .form-notice { display: flex; align-items: flex-start; gap: 7px; margin: -7px 0 15px; padding: 10px 11px; color: #2e7965; background: #e9f6f0; border: 1px solid #cce8dc; border-radius: 7px; font-size: 11px; line-height: 1.4; }
 @media (max-width: 760px) { .story-grid { grid-template-columns: 1fr; }.evidence-band { display: block; }.evidence-band > div { padding: 8px 0; }.evidence-band > svg { display: none; }.resilience-section { padding: 60px 0; }.resilience-grid { grid-template-columns: 1fr; gap: 28px; }.resilience-grid h2 { font-size: 31px; } }
+.citizen-tools { margin: 21px 6px 20px; padding: 13px 11px 12px; background: #f5f9f7; border: 1px solid #e3eeea; border-radius: 9px; }
+.citizen-tools-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 13px; color: var(--navy); font-size: 10px; font-weight: 800; letter-spacing: .04em; }
+.citizen-tools-heading svg { color: var(--saffron); }
+.sidebar-tracker-label { display: flex; align-items: center; gap: 5px; margin-bottom: 6px; color: #758688; font-size: 9px; font-weight: 800; }
+.sidebar-tracker-label svg { color: var(--teal); }
+.sidebar-tracker-input { display: flex; align-items: center; overflow: hidden; background: white; border: 1px solid #d7e5e1; border-radius: 6px; }
+.sidebar-tracker-input:focus-within { border-color: #62aaa0; box-shadow: 0 0 0 3px rgba(23,129,123,.08); }
+.sidebar-tracker-input input { width: 100%; min-width: 0; padding: 8px 7px; color: var(--navy); border: 0; outline: none; background: transparent; font-family: 'DM Sans'; font-size: 10px; }
+.sidebar-tracker-input input::placeholder { color: #aab6b6; }
+.sidebar-tracker-input button { display: grid; place-items: center; width: 27px; height: 27px; flex: 0 0 27px; margin-right: 3px; color: white; background: var(--teal); border: 0; border-radius: 5px; }
+.sidebar-tracker-input button:hover { background: #116b67; }
+.sidebar-quick-action { display: flex; align-items: center; gap: 7px; margin-top: 11px; color: var(--teal); font-size: 10px; font-weight: 800; }
+.sidebar-quick-action:hover { color: var(--navy); }
+.sidebar-pulse { display: flex; align-items: flex-start; gap: 7px; margin-top: 13px; padding-top: 11px; border-top: 1px solid #e0ebe7; }
+.sidebar-pulse-dot { width: 7px; height: 7px; flex: 0 0 7px; margin-top: 3px; background: #4eaf8b; border-radius: 50%; box-shadow: 0 0 0 3px #d9f1e7; }
+.sidebar-pulse strong, .sidebar-pulse small { display: block; }
+.sidebar-pulse strong { color: #4e756f; font-size: 9px; }
+.sidebar-pulse small { margin-top: 3px; color: #8a9a9a; font-size: 9px; line-height: 1.3; }
+@media (max-width: 760px) { .citizen-tools { margin-top: 18px; } }
